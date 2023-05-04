@@ -1,11 +1,54 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/04 11:10:09 by tmoutinh          #+#    #+#             */
+/*   Updated: 2023/05/04 18:06:30 by tmoutinh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
+
+char	*get_txt(int fd, char *txt)
+{
+	char	*temp;
+	int		i;
+
+	temp = (char *)malloc(sizeof(*temp) * (BUFFER_SIZE + 1));
+	if (!temp)
+		return (NULL);
+	i = 1;
+	while (find(txt) && i != 0) //procura nulo ou /n
+	{
+		i = read(fd, temp, BUFFER_SIZE); //se isto ler nulo para. O read armazena o ultimo local onde leu
+		if (i < 0)
+		{
+			free(txt);
+			free(temp);
+			return (NULL);
+		}
+		temp[i] = 0;
+		//printf("temp = %s", temp);
+		txt = strjoiner(txt, temp);
+		printf("text%s\n", txt);
+	}
+	free(temp);
+	return (txt);
+}
 
 char	*get_next_line(int fd)
 {
-	char	*p;
+	static char	*txt;
+	char	*line;
 
-	p = (char *)malloc(BUFFER_SIZE);
-	if (!p)
-		return (1);
-	
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	txt = get_txt(fd, txt);
+	if (!txt)
+		return (NULL);
+	line = extraction(&txt)//remover extra a direita do \n
+	return (txt);
 }
