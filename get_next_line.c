@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:10:09 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/05/04 18:06:30 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/05/06 01:06:27 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,17 @@ char	*get_txt(int fd, char *txt)
 	if (!temp)
 		return (NULL);
 	i = 1;
-	while (find(txt) && i != 0) //procura nulo ou /n
+	while (find(txt) && i != 0)
 	{
-		i = read(fd, temp, BUFFER_SIZE); //se isto ler nulo para. O read armazena o ultimo local onde leu
+		i = read(fd, temp, BUFFER_SIZE);
 		if (i < 0)
 		{
-			free(txt);
 			free(temp);
+			free(txt);
 			return (NULL);
 		}
 		temp[i] = 0;
-		//printf("temp = %s", temp);
 		txt = strjoiner(txt, temp);
-		printf("text%s\n", txt);
 	}
 	free(temp);
 	return (txt);
@@ -42,13 +40,14 @@ char	*get_txt(int fd, char *txt)
 char	*get_next_line(int fd)
 {
 	static char	*txt;
-	char	*line;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	txt = get_txt(fd, txt);
 	if (!txt)
 		return (NULL);
-	line = extraction(&txt)//remover extra a direita do \n
-	return (txt);
+	line = extraction(txt);
+	txt = removal(txt);
+	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:29:45 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/05/04 18:08:41 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/05/06 01:04:35 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,22 @@ char	*strjoiner(char *s1, char *s2)
 	p = (char *)malloc(sizeof(*p) * (sizing(s1) + sizing(s2) + 1));
 	if (!p)
 		return (NULL);
-	i = 0;
-	j = 0;
-	while (s1[i])
+	i = -1;
+	j = -1;
+	while (s1[++i])
 	{
 		p[i] = s1[i];
-		i++;
 	}
-	while (s2[j])
+	while (s2[++j])
 	{
 		p[i + j] = s2[j];
-		j++;
 	}
 	p[i + j] = 0;
 	free(s1);
 	return (p);
 }
 
-int sizing(const char *txt)
+int	sizing(const char *txt)
 {
 	int	i;
 
@@ -71,10 +69,52 @@ int	find(const char *txt)
 	return (1);
 }
 
-char	*extraction(char **txt)
+char	*extraction(char *txt)
 {
 	char	*line;
+	int		i;
+	int		j;
 
-	while ()
+	i = 0;
+	while (txt[i] && txt[i] != '\n')
+		i++;
+	if (txt[i] == '\n')
+		i++;
+	line = (char *)malloc(sizeof(*line) * (i + 1));
+	if (!line)
+		return (NULL);
+	j = 0;
+	while (j < i)
+	{
+		line[j] = txt[j];
+		j++;
+	}
+	line[i] = 0;
 	return (line);
+}
+
+char	*removal(char *txt)
+{
+	char	*text;
+	int		i;
+
+	i = 0;
+	while (*txt != '\n' && *txt)
+		txt++;
+	if (*txt == '\n')
+	{
+		txt++;
+		while (txt[i] && txt[i] != '\n')
+			i++;
+	}
+	text = (char *)malloc(sizeof(*text) * (i + 1));
+	if (!text)
+		return (NULL);
+	text[i] = 0;
+	while (i != 0)
+	{
+		i--;
+		text[i] = txt[i];
+	}
+	return (text);
 }
