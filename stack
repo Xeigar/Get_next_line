@@ -1,0 +1,56 @@
+char	*removal(char *txt)
+{
+	char	*text;
+	int		i;
+
+	i = 0;
+	while (*txt != '\n' && *txt)
+		txt++;
+	if (*txt == '\n')
+	{
+		txt++;
+		while (txt[i] && txt[i] != '\n')
+			i++;
+	}
+	text = (char *)malloc(sizeof(*text) * (i + 1));
+	if (!text)
+		return (NULL);
+	text[i] = 0;
+	while (i != 0)
+	{
+		i--;
+		text[i] = txt[i];
+	}
+	return (text);
+}
+
+________________
+
+char	*removal(char *txt)
+{
+	char	*text;
+	int		i;
+
+	i = 0;
+	while (*txt)
+	{
+		txt++;
+		if (*txt == '\n')
+		{
+			txt++;
+			break;
+		}
+	}
+	while (txt[i] && txt[i] != '\n')
+		i++;
+	text = (char *)malloc(sizeof(*text) * (i + 1));
+	if (!text)
+		return (NULL);
+	text[i] = 0;
+	while (i != 0)
+	{
+		i--;
+		text[i] = txt[i];
+	}
+	return (text);
+}

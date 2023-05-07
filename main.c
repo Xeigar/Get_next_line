@@ -12,5 +12,6 @@ int	main(void)
 	printf("%s", line2);
 	free(line_1);
 	free(line2);
+	close(fd);
 	return 0;
 }

@@ -6,11 +6,23 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:29:45 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/05/06 01:04:35 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/05/07 19:59:14 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	sizing(const char *txt)
+{
+	int	i;
+
+	if (!txt)
+		return (0);
+	i = 0;
+	while (txt[i])
+		i++;
+	return (i);
+}
 
 char	*strjoiner(char *s1, char *s2)
 {
@@ -28,11 +40,11 @@ char	*strjoiner(char *s1, char *s2)
 		return (NULL);
 	i = -1;
 	j = -1;
-	while (s1[++i])
+	while (s1[++i] && s1)
 	{
 		p[i] = s1[i];
 	}
-	while (s2[++j])
+	while (s2[++j] && s2)
 	{
 		p[i + j] = s2[j];
 	}
@@ -41,32 +53,20 @@ char	*strjoiner(char *s1, char *s2)
 	return (p);
 }
 
-int	sizing(const char *txt)
-{
-	int	i;
-
-	if (!txt)
-		return (0);
-	i = 0;
-	while (txt[i])
-		i++;
-	return (i);
-}
-
-int	find(const char *txt)
+char	*find(const char *txt)
 {
 	int	i;
 
 	i = 0;
 	if (!txt)
-		return (1);
+		return (NULL);
 	while (txt[i])
 	{
 		if (txt[i] == '\n')
-			return (0);
+			return ("found");
 		i++;
 	}
-	return (1);
+	return (NULL);
 }
 
 char	*extraction(char *txt)
@@ -93,20 +93,21 @@ char	*extraction(char *txt)
 	return (line);
 }
 
-char	*removal(char *txt)
+char	*removal(char *txt, char *line)
 {
 	char	*text;
 	int		i;
 
 	i = 0;
-	while (*txt != '\n' && *txt)
-		txt++;
-	if (*txt == '\n')
+	while (*txt == *line && *txt)
 	{
 		txt++;
-		while (txt[i] && txt[i] != '\n')
-			i++;
+		line++;
 	}
+	while (txt[i] && txt[i] != '\n')
+		i++;
+	if (txt[i] == '\n')
+		i++;
 	text = (char *)malloc(sizeof(*text) * (i + 1));
 	if (!text)
 		return (NULL);
