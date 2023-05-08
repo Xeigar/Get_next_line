@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:29:45 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/05/07 19:59:14 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:24:38 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,34 +26,29 @@ int	sizing(const char *txt)
 
 char	*strjoiner(char *s1, char *s2)
 {
-	int		j;
-	int		i;
+	char	*ret;
 	char	*p;
+	int		i;
+	int		size;
 
-	if (!s1)
-	{
-		s1 = malloc(sizeof(char) * 1);
-		s1[0] = '\0';
-	}
-	p = (char *)malloc(sizeof(*p) * (sizing(s1) + sizing(s2) + 1));
+	size = sizing(s2);
+	if (s1)
+		size += sizing(s1);
+	p = (char *)malloc(sizeof(*p) * (size + 1));
 	if (!p)
 		return (NULL);
+	ret = p;
 	i = -1;
-	j = -1;
-	while (s1[++i] && s1)
-	{
-		p[i] = s1[i];
-	}
-	while (s2[++j] && s2)
-	{
-		p[i + j] = s2[j];
-	}
-	p[i + j] = 0;
+	while (s1 && s1[++i])
+		*p++ = s1[i];
+	while (s2 && *s2)
+		*p++ = *s2++;
+	*p = 0;
 	free(s1);
-	return (p);
+	return (ret);
 }
 
-char	*find(const char *txt)
+char	*find_nl(const char *txt)
 {
 	int	i;
 
@@ -76,6 +71,8 @@ char	*extraction(char *txt)
 	int		j;
 
 	i = 0;
+	if (!*txt)
+		return (NULL);
 	while (txt[i] && txt[i] != '\n')
 		i++;
 	if (txt[i] == '\n')
@@ -93,29 +90,31 @@ char	*extraction(char *txt)
 	return (line);
 }
 
-char	*removal(char *txt, char *line)
+char	*removal(char *txt)
 {
 	char	*text;
+	char	*ret;
 	int		i;
 
-	i = 0;
-	while (*txt == *line && *txt)
+	if (!*txt)
 	{
-		txt++;
-		line++;
+		free(txt);
+		return (NULL);
 	}
-	while (txt[i] && txt[i] != '\n')
-		i++;
-	if (txt[i] == '\n')
+	ret = txt;
+	while (*txt && *txt != '\n')
+		txt++;
+	if (*txt == '\n')
+		txt++;
+	i = 0;
+	while (txt && txt[i])
 		i++;
 	text = (char *)malloc(sizeof(*text) * (i + 1));
 	if (!text)
 		return (NULL);
 	text[i] = 0;
-	while (i != 0)
-	{
-		i--;
+	while (i-- != 0)
 		text[i] = txt[i];
-	}
+	free(ret);
 	return (text);
 }

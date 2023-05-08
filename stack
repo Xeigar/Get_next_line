@@ -1,6 +1,57 @@
 char	*removal(char *txt)
 {
 	char	*text;
+	char	*ret;
+	int		i;
+
+	i = 0;
+	ret = txt;
+	while (*txt && *txt != '\n')
+		txt++;
+	while (txt[i])
+		i++;
+	text = (char *)malloc(sizeof(*text) * (i + 1));
+	if (!text)
+		return (NULL);
+	text[i] = 0;
+	while (i != 0)
+	{
+		i--;
+		text[i] = txt[i];
+	}
+	free(ret);
+	return (text);
+}
+_________________________
+char	*removal(char *txt, char *line)
+{
+	char	*text;
+	int		i;
+
+	i = 0;
+	while (*txt == *line && *txt)
+	{
+		txt++;
+		line++;
+	}
+	while (txt[i])
+		i++;
+	text = (char *)malloc(sizeof(*text) * (i + 1));
+	if (!text)
+		return (NULL);
+	text[i] = 0;
+	while (i != 0)
+	{
+		i--;
+		text[i] = txt[i];
+	}
+	free(txt);
+	return (text);
+}
+________________________________
+char	*removal(char *txt)
+{
+	char	*text;
 	int		i;
 
 	i = 0;
@@ -53,4 +104,33 @@ char	*removal(char *txt)
 		text[i] = txt[i];
 	}
 	return (text);
+}
+
+
+__________
+
+char	*strjoiner(char *s1, char *s2)
+{
+	char	*p;
+	int		i;
+	int		j;
+
+	if (!s1)
+	{
+		s1 = malloc(sizeof(char) * 1);
+		s1[0] = '\0';
+	}
+	p = (char *)malloc(sizeof(*p) * (sizing(s1) + sizing(s2) + 1));
+	if (!p)
+		return (NULL);
+	//ret = p;
+	i = -1;
+	j = -1;
+	while (s1[++i] && s1)
+		p[i] = s1[i];
+	while (s2[++j] && s2)
+		p[i + j] = s2[j];
+	p[i + j] = 0;
+	free(s1);
+	return (p);
 }

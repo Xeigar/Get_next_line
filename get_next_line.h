@@ -6,7 +6,7 @@
 /*   By: tmoutinh <tmoutinh@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:28:53 by tmoutinh          #+#    #+#             */
-/*   Updated: 2023/05/07 19:55:12 by tmoutinh         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:40:55 by tmoutinh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ char	*get_next_line(int fd);
 char	*get_txt(int fd, char *txt);
 char	*strjoiner(char *s1, char *s2);
 int		sizing(const char *txt);
-char	*find(const char *txt);
+char	*find_nl(const char *txt);
 char	*extraction(char *txt);
-char	*removal(char *txt, char *line);
+char	*removal(char *txt);
 
 #endif
